@@ -10,7 +10,7 @@ class Activity
     @participants.push(person)
   end
 
-  def total_cost?
-    @cost * @participants.length
+  def cost?
+    @cost
   end
 end

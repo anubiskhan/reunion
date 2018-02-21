@@ -26,7 +26,15 @@ class ActivityTest < Minitest::Test
     activity = Activity.new('movie', 12)
     activity.add_participants('Doug')
 
-    assert_equal 12, activity.total_cost?
-    assert_instance_of Float, activity.total_cost?
+    assert_equal 12, activity.cost?
+    assert_instance_of Float, activity.cost?
+  end
+
+  def test_activity_has_a_different_cost
+    activity = Activity.new('Ride to space', 100_000)
+    activity.add_participants('Doug')
+    activity.add_participants('Judy')
+
+    assert_equal 100_000, activity.cost?
   end
 end
