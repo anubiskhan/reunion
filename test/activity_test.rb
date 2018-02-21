@@ -37,4 +37,30 @@ class ActivityTest < Minitest::Test
 
     assert_equal 100_000, activity.cost?
   end
+
+  def test_activity_cost_can_be_split
+    activity = Activity.new('movie', 36)
+    activity.add_participants('Doug')
+    activity.add_participants('Judy')
+    activity.add_participants('Jake')
+
+    assert_equal 36, activity.cost?
+    assert_equal 12, activity.cost_per_person?
+  end
+
+  def test_participants_can_make_payments
+    activity = Activity.new('movie', 36)
+    activity.add_participants('Doug')
+    activity.add_participants('Judy')
+    activity.add_participants('Jake')
+
+    activity.make_payment('Doug', 12)
+    activity.make_payment('Judy', 0)
+    activity.make_payment('Jake', 24)
+
+    assert_equal 12, activity.participants['Doug']
+    assert_equal 0, activity.participants['Judy']
+    assert_equal 24, activity.participants['Jake']
+    assert_instance_of Float, activity.participants['Jake']
+  end
 end
