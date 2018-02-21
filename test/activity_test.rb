@@ -12,7 +12,6 @@ class ActivityTest < Minitest::Test
 
   def test_activity_can_have_participants
     activity = Activity.new('coding')
-
     activity.add_participants('Doug')
 
     assert activity.participants.include?('Doug')
@@ -21,5 +20,13 @@ class ActivityTest < Minitest::Test
     activity.add_participants('Jake')
 
     assert_equal 3, activity.participants.length
+  end
+
+  def test_activity_has_a_cost
+    activity = Activity.new('movie', 12)
+    activity.add_participants('Doug')
+
+    assert_equal 12, activity.total_cost?
+    assert_instance_of Float, activity.total_cost?
   end
 end
