@@ -25,7 +25,7 @@ class Activity
 
   def who_owes?
     @accounts.map do |person, amount|
-      {person=>cost_per_person? - amount}
+      {person => cost_per_person? - amount}
     end
   end
 end
