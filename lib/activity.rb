@@ -1,9 +1,9 @@
 class Activity
-  attr_reader :name, :participants
+  attr_reader :name, :participants, :accounts
   def initialize(name, cost = 0)
     @name = name
     @participants = []
-    @accounts = []
+    @accounts = {}
     @cost = cost.to_f
   end
 
@@ -20,6 +20,12 @@ class Activity
   end
 
   def make_payment(person, amount)
-    @accounts.push({person => amount.to_f}
+    @accounts[person] = amount.to_f
+  end
+
+  def who_owes?
+    @accounts.map do |person, amount|
+      {person=>cost_per_person? - amount}
+    end
   end
 end

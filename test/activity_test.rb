@@ -1,3 +1,4 @@
+require 'pry'
 require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -58,9 +59,22 @@ class ActivityTest < Minitest::Test
     activity.make_payment('Judy', 0)
     activity.make_payment('Jake', 24)
 
-    assert_equal 12, activity.participants['Doug']
-    assert_equal 0, activity.participants['Judy']
-    assert_equal 24, activity.participants['Jake']
-    assert_instance_of Float, activity.participants['Jake']
+    assert_equal 12, activity.accounts['Doug']
+    assert_equal 0, activity.accounts['Judy']
+    assert_equal 24, activity.accounts['Jake']
+    assert_instance_of Float, activity.accounts['Jake']
+  end
+
+  def test_can_determine_who_owes_what
+    activity = Activity.new('movie', 36)
+    activity.add_participants('Doug')
+    activity.add_participants('Judy')
+    activity.add_participants('Jake')
+
+    activity.make_payment('Doug', 12)
+    activity.make_payment('Judy', 0)
+    activity.make_payment('Jake', 24)
+
+    assert_equal [{'Doug'=>0.0}, {'Judy'=>12.0}, {'Jake'=>(-12.0)}], activity.who_owes?
   end
 end
